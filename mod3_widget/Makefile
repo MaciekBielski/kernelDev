@@ -3,7 +3,7 @@ obj-m := widget.o
 
 # optional but useful
 SCRIPT_DIR := $(strip $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST)))))
-KERNEL_DIR ?= $(SCRIPT_DIR)/../linux
+KERNEL_DIR ?= $(SCRIPT_DIR)/../linux_build
 SHARED_DIR ?= $(SCRIPT_DIR)/../shared
 
 default: widget
