@@ -10,5 +10,6 @@ sudo apt -y install \
     ncurses-bin \
     libelf-dev \
     libssl-dev \
+    python3-venv \
     cgdb
 

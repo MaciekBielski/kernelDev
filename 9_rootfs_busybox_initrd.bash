@@ -1,9 +1,9 @@
 
 declare -r script_dir=$(dirname $(readlink -f "${BASH_SOURCE[0]}"))
-declare -r bbox_dir="$script_dir/busybox"
+declare -r bbox_dir="$script_dir/build/busybox"
 declare -r bbox_install_dir="$bbox_dir/_install"
 declare -r bbox_rcs_script="$bbox_install_dir/etc/init.d/rcS"
-declare -r bbox_ramfs_img="$script_dir/busybox.cpio.gz"
+declare -r bbox_ramfs_img="$script_dir/build/busybox.cpio.gz"
 
 pushd "$bbox_dir"
 rm -rf "$bbox_install_dir"
@@ -30,7 +30,7 @@ mkdir -p /lib/modules/\$(uname -r)
 while true
 do
     echo "[!] Startig getty on ttyS1"
-    /sbin/getty -L -n -l /bin/sh ttyS1 38400 linux
+    /sbin/getty -L -n -l /bin/sh ttyS1 115200 linux
     echo "[!] Getty on ttyS1 exited"
     sleep 1
 done
