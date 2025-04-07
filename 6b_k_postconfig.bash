@@ -37,7 +37,8 @@ ARCH=x86_64 make O="$kernel_build" -C "$kernel_src" olddefconfig
 pushd "$kernel_src"
 ./scripts/config --file "$kernel_build/.config" --enable CONFIG_DEBUG_FS
 ./scripts/config --file "$kernel_build/.config" --disable CONFIG_SYSTEM_REVOCATION_LIST
-./scripts/config --file "$kernel_build/.config" --set-str CONFIG_SYSTEM_TRUSTED_KEYS
+./scripts/config --file "$kernel_build/.config" --set-str CONFIG_SYSTEM_TRUSTED_KEYS ""
+# ./scripts/config --file "$kernel_build/.config" --set-str LOCALVERSION "my_build"
 # for debugging
 ./scripts/config --file "$kernel_build/.config" --disable CONFIG_ARCH_HAS_STRICT_KERNEL_RWX
 ./scripts/config --file "$kernel_build/.config" --disable CONFIG_ARCH_HAS_STRICT_MODULE_RWX
