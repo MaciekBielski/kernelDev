@@ -1,14 +1,18 @@
-
 declare -r script_dir=$(dirname $(readlink -f "${BASH_SOURCE[0]}"))
 declare -r kernel_src="$script_dir/linux"
 declare -r kernel_build="$script_dir/build/linux"
 
-if [[ -f "$kernel_build/.config" ]]; then
-# vscode extension make clutter the src directory
-ARCH=x86_64 make -C "$kernel_src" mrproper
+mkdir -p "$kernel_build"
+
+if [[ ! -f "$kernel_build/.config" ]]; then
+ARCH=x86_64 make O="$kernel_build" -C "$kernel_src" x86_64_defconfig
+echo '[+] Configured x86_64_defconfig'
+fi
+
 ARCH=x86_64 make O="$kernel_build" -C "$kernel_src" olddefconfig
 
 pushd "$kernel_src"
+
 ./scripts/config --file "$kernel_build/.config" --enable CONFIG_DEBUG_FS
 ./scripts/config --file "$kernel_build/.config" --disable CONFIG_SYSTEM_REVOCATION_LIST
 ./scripts/config --file "$kernel_build/.config" --set-str CONFIG_SYSTEM_TRUSTED_KEYS ""
@@ -32,8 +36,7 @@ pushd "$kernel_src"
 ./scripts/config --file "$kernel_build/.config" --enable CONFIG_FRAME_POINTER
 ./scripts/config --file "$kernel_build/.config" --enable CONFIG_KGDB_SERIAL_CONSOLE
 ./scripts/config --file "$kernel_build/.config" --enable CONFIG_SERIAL_KGDB_NMI
+
 popd
 
 echo '[+] Configured custom flags'
-
-fi

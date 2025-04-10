@@ -1,3 +1,4 @@
+# EXTRA: systool -vm <module>
 
 # will look for hello.c
 obj-m := hello.o
@@ -10,6 +11,11 @@ obj-m := hello.o
 # In case a final object has multiple sources
 hello-objs := hello_src1.o
 
+# Changing flags for a target
+# CFLAGS_abc.o	+= -mflag
+# CFLAGS_abc.o	+= -DDEBUG
+# cflags-$(variable-name) += -DFOOBAR
+
 # optional but useful
 SCRIPT_DIR := $(strip $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST)))))
 KERNEL_DIR ?= $(SCRIPT_DIR)/../build/linux
@@ -19,6 +25,9 @@ default: hello
 
 modules help clean:
 	$(MAKE) -C $(KERNEL_DIR) M=$(SCRIPT_DIR) $@
+
+# preproc:
+#     $(MAKE) -C $(KERNEL_DIR) M=$(SCRIPT_DIR) hello.i
 
 hello: modules
 	mkdir -p $(SHARED_DIR)/modules

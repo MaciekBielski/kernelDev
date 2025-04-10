@@ -5,7 +5,7 @@ declare -r kernel_build="$script_dir/build/linux"
 
 # make -C "$kernel_build" bzImage -j$(nproc)
 # ARCH=x86_64 make -C "$kernel_build" vmlinux -j$(nproc)
-ARCH=x86_64 make O="$kernel_build" -C "$kernel_src" vmlinux -j$(nproc)
+ARCH=x86_64 make O="$kernel_build" -C "$kernel_src" bzImage vmlinux modules -j$(nproc)
 
 # Optional
 # ARCH=x86_64 make O="$kernel_build" -C "$kernel_src" bindeb-pkg -j$(nproc)
