@@ -1,13 +1,14 @@
 # NOTE: nokaslr + nosmp for debug
 #
 # Usage:
-# $ cgdb -- -ex 'file build/linux/vmlinux' -ex 'target remote /tmp/kgdb-socket'
+# $ cgdb -- -ex 'file build/linux/vmlinux' -ex 'target remote /tmp/gdb-socket'
+#
 
 declare -r script_dir=$(dirname $(readlink -f "${BASH_SOURCE[0]}"))
 declare -r qemu_dir="$script_dir/build/qemu"
 declare -r qemu_exe="$qemu_dir/qemu-system-x86_64"
 declare -r k_image="$script_dir/build/linux/arch/x86_64/boot/bzImage"
-declare -r k_args="nokaslr nosmp earlyprintk console=ttyS0 root=/dev/vda rw loglevel=8 rdinit=/sbin/init kgdboc=ttyS2,115200 kgdbwait"
+declare -r k_args="nokaslr nosmp earlyprintk console=ttyS0 root=/dev/vda rw loglevel=8 rdinit=/sbin/init"
 declare -r bbox_ramfs_img="$script_dir/build/busybox.cpio.gz"
 declare -r shared_dir="$script_dir/shared"
 
@@ -29,6 +30,6 @@ mkdir -p "$shared_dir"
     -serial chardev:consmon \
     -chardev socket,id=backend2,host=localhost,port=8888,nodelay=on,server=on,wait=off,telnet=on \
     -serial chardev:backend2 \
-    -chardev socket,id=kgdb,path=/tmp/kgdb-socket,nodelay=on,server=on,wait=off \
-    -serial chardev:kgdb
+    -chardev socket,id=gdb,path=/tmp/gdb-socket,nodelay=on,server=on,wait=off \
+    -gdb chardev:gdb -S
 
